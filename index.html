@@ -1,162 +1,402 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!doctype html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2113.6">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Hiragino Sans'}
-    span.s1 {font: 12.0px Helvetica}
-    span.s2 {font: 12.0px 'Hiragino Sans'}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f19" />
+  <title>EXP Quest</title>
+  <style>
+    :root{
+      --bg:#0b0f19; --panel:#121a2a; --panel2:#0f1524;
+      --text:#e7eefc; --muted:#98a5c7; --accent:#7aa2ff; --good:#47d18c; --warn:#ffcc66;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", Meiryo, Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 700px at 30% 10%, rgba(122,162,255,.22), transparent 55%),
+                  radial-gradient(900px 600px at 80% 35%, rgba(71,209,140,.18), transparent 60%),
+                  var(--bg);
+      color:var(--text); font-family:var(--sans);
+    }
+    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 70px;}
+    header{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      position:sticky; top:0; padding:14px 0 12px; backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; gap:12px; align-items:center;}
+    .logo{
+      width:42px; height:42px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(71,209,140,.85));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:800; letter-spacing:.5px;
+    }
+    .title{display:flex; flex-direction:column; line-height:1.1;}
+    .title strong{font-size:15px;}
+    .title span{font-size:12px; color:var(--muted);}
+    .chiprow{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+    .chip{
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      padding:8px 10px; border-radius:999px;
+      font-family:var(--mono); font-size:12px; color:var(--text);
+    }
+    .grid{display:grid; gap:12px; grid-template-columns: 1.05fr .95fr;}
+    @media (max-width: 860px){ .grid{grid-template-columns:1fr;} header{position:static;} }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .card h2{
+      margin:0 0 10px; font-size:13px; letter-spacing:.2px; color:var(--muted);
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .kpi{
+      display:flex; flex-direction:column; gap:4px;
+      padding:12px; border-radius:14px; background: rgba(0,0,0,.16);
+      border:1px solid var(--border); flex:1; min-width:160px;
+    }
+    .kpi .label{font-size:12px; color:var(--muted);}
+    .kpi .value{font-family:var(--mono); font-size:18px; font-weight:700;}
+    .bar{
+      height:10px; border-radius:999px;
+      background: rgba(255,255,255,.08);
+      overflow:hidden; border:1px solid var(--border);
+    }
+    .bar > div{height:100%; width:0%; background: linear-gradient(90deg, rgba(122,162,255,.95), rgba(71,209,140,.85));}
+    textarea{
+      width:100%; min-height:140px; resize:vertical;
+      background: rgba(0,0,0,.22); color:var(--text);
+      border:1px solid var(--border); border-radius:14px;
+      padding:12px 12px; font-size:14px; line-height:1.55;
+      outline:none;
+    }
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center; justify-content:space-between;}
+    .toggles{display:flex; gap:10px; flex-wrap:wrap;}
+    .toggle{
+      display:flex; gap:8px; align-items:center;
+      padding:10px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.14);
+      user-select:none;
+    }
+    .toggle input{transform: scale(1.15);}
+    button{
+      border:0; cursor:pointer; border-radius:14px;
+      padding:12px 14px; font-weight:750; letter-spacing:.2px;
+      color:#0b0f19;
+      background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(71,209,140,.85));
+      box-shadow: var(--shadow);
+    }
+    button.secondary{
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
+    .loglist{display:flex; flex-direction:column; gap:10px; max-height:450px; overflow:auto; padding-right:6px;}
+    .entry{
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.16);
+      border-radius: 14px;
+      padding:12px;
+    }
+    .entry .top{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      font-family:var(--mono); font-size:12px; color:var(--muted);
+    }
+    .entry .gain{color: var(--good); font-weight:800;}
+    .badge{
+      display:inline-flex; gap:6px; align-items:center;
+      padding:4px 10px; border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-family:var(--mono); font-size:12px;
+    }
+
+    /* Buddy UI */
+    #buddyWrap{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      display:flex;
+      gap:12px;
+      align-items:flex-end;
+      z-index: 998;
+    }
+    #buddy{
+      width:88px; height:88px;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    #buddyBubble{
+      width: min(420px, calc(100vw - 140px));
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(18,26,42,.92), rgba(12,16,28,.88));
+      box-shadow: var(--shadow);
+    }
+    #buddyName{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    #buddyText{
+      margin-top: 6px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    #buddyChips{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 10px;
+    }
+    .bchip{
+      cursor:pointer;
+      user-select:none;
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
   </style>
 </head>
+
 <body>
-<p class="p1">// =================== Buddy (Amoeba) ===================</p>
-<p class="p1">const buddy = {</p>
-<p class="p1"><span class="Apple-converted-space">  </span>mood: "idle", // idle, happy, hype, metal, level, focus</p>
-<p class="p1"><span class="Apple-converted-space">  </span>lastTextAt: 0,</p>
-<p class="p1">};</p>
-<p class="p2"><br></p>
-<p class="p1">function setBuddyText(text, chips=[]){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>$("buddyText").textContent = text;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const wrap = $("buddyChips");</p>
-<p class="p1"><span class="Apple-converted-space">  </span>wrap.innerHTML = "";</p>
-<p class="p1"><span class="Apple-converted-space">  </span>for (const c of chips){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const d = document.createElement("div");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>d.className = "bchip";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>d.textContent = c.label;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>d.addEventListener("click", ()=&gt;c.onClick());</p>
-<p class="p1"><span class="Apple-converted-space">    </span>wrap.appendChild(d);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function buddyPromptAfterSubmit({metal, leveled, gained}){</p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">  </span>// “</span>対話<span class="s1">”</span>で次の行動を促す（ウサギ向け）</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (metal){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>buddy.mood = "metal";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>setBuddyText(</p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">      </span>`</span>★メタル反応<span class="s1">\n</span>いまの脳の状態は良い。<span class="s1">\n</span>次は「<span class="s1">SNS</span>断ち」か「深集中」で連鎖を狙える。<span class="s1">`,</span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>[</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{label:"SNS<span class="s2">断ち</span>ON<span class="s2">にする</span>", onClick:()=&gt;{ $("tNoSNS").checked = true; setBuddyText("<span class="s2">よし。誘惑が強い日は</span>EXP<span class="s2">が跳ねる。</span>"); }},</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">深集中</span>ON<span class="s2">にする</span>", onClick:()=&gt;{ $("tDeepWork").checked = true; setBuddyText("<span class="s2">了解。深集中はメタル確率も上がる。</span>"); }},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>]</p>
-<p class="p1"><span class="Apple-converted-space">    </span>);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>if (leveled){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>buddy.mood = "level";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>setBuddyText(</p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">      </span>`LvUP</span>。あなたの回路が更新された。<span class="s1">\n</span>次は<span class="s1">“</span>短い入力<span class="s1">”</span>を積んで<span class="s1">Streak</span>を維持。<span class="s1">`,</span></p>
-<p class="p1"><span class="Apple-converted-space">      </span>[</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">クイック入力する</span>", onClick:()=&gt;{ $("logInput").focus(); }},</p>
-<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">今日の方針：</span>SNS<span class="s2">極小</span>", onClick:()=&gt;{ $("tNoSNS").checked = true; setBuddyText("<span class="s2">採用。今日は</span>SNS<span class="s2">を</span>“<span class="s2">敵</span>”<span class="s2">に指定した。</span>"); }},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>]</p>
-<p class="p1"><span class="Apple-converted-space">    </span>);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>buddy.mood = gained &gt;= 250 ? "hype" : "happy";</p>
-<p class="p1"><span class="Apple-converted-space">  </span>setBuddyText(</p>
-<p class="p3"><span class="s1"><span class="Apple-converted-space">    </span>`+${gained}EXP</span>。悪くない。<span class="s1">\n</span>「次の一手」を<span class="s1">1</span>行で入力して、連鎖を作る？<span class="s1">`,</span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>[</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{label:"1<span class="s2">行だけ書く</span>", onClick:()=&gt;{ $("logInput").focus(); }},</p>
-<p class="p1"><span class="Apple-converted-space">      </span>{label:"<span class="s2">今日は休止も</span>OK", onClick:()=&gt;{ setBuddyText("<span class="s2">了解。休止は統合（</span>Step<span class="s2">）を生む日がある。</span>"); }},</p>
-<p class="p1"><span class="Apple-converted-space">    </span>]</p>
-<p class="p1"><span class="Apple-converted-space">  </span>);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// Amoeba animation</p>
-<p class="p1">(function initBuddy(){</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const canvas = $("buddy");</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const ctx = canvas.getContext("2d");</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const W = canvas.width, H = canvas.height;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>const cx = W/2, cy = H/2;</p>
-<p class="p1"><span class="Apple-converted-space">  </span>let t = 0;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function moodColor(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// no hardcoded colors rule applies to python charts only; here is UI CSS/Canvas ok.</p>
-<p class="p1"><span class="Apple-converted-space">    </span>switch(buddy.mood){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>case "metal": return {a:"rgba(255,204,102,0.95)", b:"rgba(122,162,255,0.85)"};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>case "level": return {a:"rgba(71,209,140,0.95)", b:"rgba(122,162,255,0.85)"};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>case "hype":<span class="Apple-converted-space">  </span>return {a:"rgba(122,162,255,0.95)", b:"rgba(255,107,107,0.78)"};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>case "focus": return {a:"rgba(122,162,255,0.95)", b:"rgba(71,209,140,0.85)"};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>case "happy": return {a:"rgba(71,209,140,0.92)", b:"rgba(122,162,255,0.78)"};</p>
-<p class="p1"><span class="Apple-converted-space">      </span>default:<span class="Apple-converted-space">      </span>return {a:"rgba(122,162,255,0.75)", b:"rgba(71,209,140,0.70)"};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>function draw(){</p>
-<p class="p1"><span class="Apple-converted-space">    </span>t += 0.016;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.clearRect(0,0,W,H);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// background soft glow</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const c = moodColor();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const g = ctx.createRadialGradient(cx, cy, 10, cx, cy, 95);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>g.addColorStop(0, c.a);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>g.addColorStop(1, "rgba(0,0,0,0)");</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = g;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath(); ctx.arc(cx,cy,95,0,Math.PI*2); ctx.fill();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// amoeba blob: radial noise</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const baseR = 42;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const amp = (buddy.mood==="metal"||buddy.mood==="level") ? 10 : (buddy.mood==="hype" ? 8 : 6);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const wob = (buddy.mood==="focus") ? 0.6 : 1.0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const points = 64;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>for (let i=0;i&lt;=points;i++){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const a = (i/points)*Math.PI*2;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const n = Math.sin(a*3 + t*2*wob) * 0.55</p>
-<p class="p1"><span class="Apple-converted-space">              </span>+ Math.sin(a*7 - t*1.6*wob) * 0.30</p>
-<p class="p1"><span class="Apple-converted-space">              </span>+ Math.sin(a*11 + t*1.1*wob) * 0.15;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const r = baseR + amp*n;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const x = cx + Math.cos(a)*r;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>const y = cy + Math.sin(a)*r;</p>
-<p class="p1"><span class="Apple-converted-space">      </span>if (i===0) ctx.moveTo(x,y);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>else ctx.lineTo(x,y);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.closePath();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// fill gradient</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const lg = ctx.createLinearGradient(cx-50,cy-50,cx+60,cy+60);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>lg.addColorStop(0, c.a);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>lg.addColorStop(1, c.b);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = lg;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.fill();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// eyes (cute)</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const blink = (Math.sin(t*2.8) &gt; 0.985) ? 1 : 0;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const eyeY = cy - 6;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const eyeDx = 14;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = "rgba(11,15,25,0.75)";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>if (!blink){</p>
-<p class="p1"><span class="Apple-converted-space">      </span>ctx.beginPath(); ctx.arc(cx-eyeDx, eyeY, 4.8, 0, Math.PI*2); ctx.fill();</p>
-<p class="p1"><span class="Apple-converted-space">      </span>ctx.beginPath(); ctx.arc(cx+eyeDx, eyeY, 4.8, 0, Math.PI*2); ctx.fill();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">      </span>ctx.fillRect(cx-eyeDx-5, eyeY, 10, 2);</p>
-<p class="p1"><span class="Apple-converted-space">      </span>ctx.fillRect(cx+eyeDx-5, eyeY, 10, 2);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>// mouth</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.strokeStyle = "rgba(11,15,25,0.65)";</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.lineWidth = 2;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath();</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const m = buddy.mood==="metal" ? 10 : (buddy.mood==="hype" ? 7 : 5);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.arc(cx, cy+6, m, 0.15*Math.PI, 0.85*Math.PI);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>ctx.stroke();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>requestAnimationFrame(draw);</p>
-<p class="p1"><span class="Apple-converted-space">  </span>}</p>
-<p class="p1"><span class="Apple-converted-space">  </span>draw();</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">  </span>// initial buddy text</p>
-<p class="p1"><span class="Apple-converted-space">  </span>setBuddyText("<span class="s2">相棒</span>Amo<span class="s2">だ。</span>\n<span class="s2">行動を入れると、私は</span>“<span class="s2">報酬演出</span>”<span class="s2">で回路を回す。</span>", [</p>
-<p class="p1"><span class="Apple-converted-space">    </span>{label:"<span class="s2">今日のログを書く</span>", onClick:()=&gt;{$("logInput").focus();}},</p>
-<p class="p1"><span class="Apple-converted-space">    </span>{label:"SNS<span class="s2">断ちを誓う</span>", onClick:()=&gt;{$("tNoSNS").checked=true; setBuddyText("<span class="s2">誓約を確認。誘惑が強いほど</span>EXP<span class="s2">が美味い。</span>");}},</p>
-<p class="p1"><span class="Apple-converted-space">  </span>]);</p>
-<p class="p1">})();</p>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">XP</div>
+        <div class="title">
+          <strong>EXP Quest</strong>
+          <span>Auto-assess mode</span>
+        </div>
+      </div>
+      <div class="chiprow">
+        <div class="chip" id="chipLv">Lv 10</div>
+        <div class="chip" id="chipExp">EXP 1200</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>今日のログ <span class="badge" id="badgeToday">—</span></h2>
+
+        <textarea id="logInput" placeholder="例：
+・自炊
+・SNSを我慢
+・読書30分
+・重要な気づき
+・人に優しくできた
+..."></textarea>
+
+        <div class="controls">
+          <div class="toggles">
+            <label class="toggle"><input type="checkbox" id="tNoSNS" /> SNS使わなかった</label>
+            <label class="toggle"><input type="checkbox" id="tDeepWork" /> 深集中できた</label>
+            <label class="toggle"><input type="checkbox" id="tRisk" /> 怖いことに踏み込んだ</label>
+          </div>
+          <div class="row">
+            <button class="secondary" id="btnReset">初期化</button>
+            <button id="btnSubmit">査定してEXP付与</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>履歴</h2>
+        <div class="loglist" id="history"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Buddy (amoeba companion) -->
+  <div id="buddyWrap" aria-label="buddy">
+    <canvas id="buddy" width="220" height="220"></canvas>
+    <div id="buddyBubble">
+      <div id="buddyName">Amo</div>
+      <div id="buddyText">—</div>
+      <div id="buddyChips"></div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const nowISODate = () => new Date().toISOString().slice(0,10);
+
+    const KEY = "expquest_v1";
+    function loadState(){
+      const raw = localStorage.getItem(KEY);
+      if (raw){ try{return JSON.parse(raw);}catch{} }
+      return { totalExp: 1200, history: [] };
+    }
+    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+    function levelFromExp(total){
+      if (total >= 1500) return 11;
+      return 10;
+    }
+
+    function render(){
+      const s = loadState();
+      $("badgeToday").textContent = nowISODate();
+      $("chipExp").textContent = `EXP ${s.totalExp}`;
+      $("chipLv").textContent = `Lv ${levelFromExp(s.totalExp)}`;
+
+      const hist = s.history.slice().reverse();
+      const el = $("history");
+      el.innerHTML = hist.length ? hist.map(h=>`
+        <div class="entry">
+          <div class="top"><span>${h.date}</span><span class="gain">+${h.gained} EXP</span></div>
+          <div class="desc" style="white-space:pre-wrap;margin-top:8px;">${h.text}</div>
+        </div>
+      `).join("") : `<div style="color:var(--muted);font-size:12px;">まだ履歴がありません。</div>`;
+    }
+
+    // ===== Buddy =====
+    const buddy = { mood:"idle" };
+
+    function setBuddyText(text, chips=[]){
+      $("buddyText").textContent = text;
+      const wrap = $("buddyChips");
+      wrap.innerHTML = "";
+      for (const c of chips){
+        const d = document.createElement("div");
+        d.className = "bchip";
+        d.textContent = c.label;
+        d.addEventListener("click", ()=>c.onClick());
+        wrap.appendChild(d);
+      }
+    }
+
+    // Amoeba animation
+    (function initBuddy(){
+      const canvas = $("buddy");
+      const ctx = canvas.getContext("2d");
+      const W = canvas.width, H = canvas.height;
+      const cx = W/2, cy = H/2;
+      let t = 0;
+
+      function moodColor(){
+        switch(buddy.mood){
+          case "metal": return {a:"rgba(255,204,102,0.95)", b:"rgba(122,162,255,0.85)"};
+          case "hype":  return {a:"rgba(122,162,255,0.95)", b:"rgba(255,107,107,0.78)"};
+          default:      return {a:"rgba(122,162,255,0.75)", b:"rgba(71,209,140,0.70)"};
+        }
+      }
+
+      function draw(){
+        t += 0.016;
+        ctx.clearRect(0,0,W,H);
+
+        const c = moodColor();
+        const g = ctx.createRadialGradient(cx, cy, 10, cx, cy, 95);
+        g.addColorStop(0, c.a);
+        g.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(cx,cy,95,0,Math.PI*2); ctx.fill();
+
+        const baseR = 42;
+        const amp = (buddy.mood==="metal") ? 10 : 6;
+        const points = 64;
+
+        ctx.beginPath();
+        for (let i=0;i<=points;i++){
+          const a = (i/points)*Math.PI*2;
+          const n = Math.sin(a*3 + t*2) * 0.55
+                  + Math.sin(a*7 - t*1.6) * 0.30
+                  + Math.sin(a*11 + t*1.1) * 0.15;
+          const r = baseR + amp*n;
+          const x = cx + Math.cos(a)*r;
+          const y = cy + Math.sin(a)*r;
+          if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.closePath();
+
+        const lg = ctx.createLinearGradient(cx-50,cy-50,cx+60,cy+60);
+        lg.addColorStop(0, c.a);
+        lg.addColorStop(1, c.b);
+        ctx.fillStyle = lg;
+        ctx.fill();
+
+        // eyes
+        ctx.fillStyle = "rgba(11,15,25,0.75)";
+        ctx.beginPath(); ctx.arc(cx-14, cy-6, 4.8, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx+14, cy-6, 4.8, 0, Math.PI*2); ctx.fill();
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+
+      setBuddyText("相棒Amoだ。行動を入れて。EXPを渡す。", [
+        {label:"入力にフォーカス", onClick:()=>{$("logInput").focus();}},
+        {label:"SNS断ちON", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("OK。SNSは敵。");}},
+      ]);
+    })();
+
+    function assess(text){
+      let gained = 40;
+      if (text.includes("自炊")) gained += 20;
+      if (text.includes("読書")) gained += 40;
+      if ($("tNoSNS").checked) gained += 120;
+      if ($("tDeepWork").checked) gained += 70;
+      if ($("tRisk").checked) gained += 90;
+
+      // mild metal
+      const p = 0.18 + ($("tDeepWork").checked?0.06:0) + ($("tNoSNS").checked?0.05:0);
+      let metal = false;
+      if (Math.random() < p){ gained += 200; metal = true; }
+      return {gained, metal};
+    }
+
+    $("btnSubmit").addEventListener("click", ()=>{
+      const text = $("logInput").value.trim();
+      const s = loadState();
+      const before = s.totalExp;
+      const {gained, metal} = assess(text);
+      s.totalExp += gained;
+      s.history.push({date: nowISODate(), text, gained});
+      saveState(s);
+      render();
+
+      buddy.mood = metal ? "metal" : (gained>=250 ? "hype" : "idle");
+      setBuddyText(
+        metal ? `★メタル！ +${gained}EXP` : `+${gained}EXP`,
+        [
+          {label:"次の1行", onClick:()=>{$("logInput").focus();}},
+          {label:"SNS断ち", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("SNS断ちON。");}},
+        ]
+      );
+      $("logInput").value = "";
+      $("tNoSNS").checked = false;
+      $("tDeepWork").checked = false;
+      $("tRisk").checked = false;
+    });
+
+    $("btnReset").addEventListener("click", ()=>{
+      if (!confirm("全データを初期化します。よろしいですか？")) return;
+      localStorage.removeItem(KEY);
+      render();
+      setBuddyText("初期化した。最初のログを入れて。", [{label:"入力", onClick:()=>{$("logInput").focus();}}]);
+    });
+
+    render();
+  </script>
 </body>
 </html>
