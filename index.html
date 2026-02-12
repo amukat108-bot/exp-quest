@@ -7,9 +7,10 @@
   <title>EXP Quest</title>
   <style>
     :root{
-      --bg:#0b0f19; --panel:#121a2a; --panel2:#0f1524;
-      --text:#e7eefc; --muted:#98a5c7; --accent:#7aa2ff; --good:#47d18c; --warn:#ffcc66;
-      --border: rgba(255,255,255,.08);
+      --bg:#0b0f19; --panel:#121a2a;
+      --text:#e7eefc; --muted:#98a5c7;
+      --good:#47d18c; --warn:#ffcc66;
+      --border: rgba(255,255,255,.10);
       --shadow: 0 18px 40px rgba(0,0,0,.45);
       --radius: 18px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -18,15 +19,17 @@
     html,body{height:100%;}
     body{
       margin:0;
-      background: radial-gradient(1200px 700px at 30% 10%, rgba(122,162,255,.22), transparent 55%),
-                  radial-gradient(900px 600px at 80% 35%, rgba(71,209,140,.18), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 700px at 30% 10%, rgba(122,162,255,.22), transparent 55%),
+        radial-gradient(900px 600px at 80% 35%, rgba(71,209,140,.18), transparent 60%),
+        var(--bg);
       color:var(--text); font-family:var(--sans);
     }
-    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 70px;}
+    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 80px;}
     header{
       display:flex; gap:12px; align-items:center; justify-content:space-between;
       position:sticky; top:0; padding:14px 0 12px; backdrop-filter: blur(10px);
+      z-index: 10;
     }
     .brand{display:flex; gap:12px; align-items:center;}
     .logo{
@@ -34,7 +37,7 @@
       background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(71,209,140,.85));
       box-shadow: var(--shadow);
       display:grid; place-items:center;
-      font-weight:800; letter-spacing:.5px;
+      font-weight:900; letter-spacing:.5px;
     }
     .title{display:flex; flex-direction:column; line-height:1.1;}
     .title strong{font-size:15px;}
@@ -46,8 +49,10 @@
       padding:8px 10px; border-radius:999px;
       font-family:var(--mono); font-size:12px; color:var(--text);
     }
+
     .grid{display:grid; gap:12px; grid-template-columns: 1.05fr .95fr;}
     @media (max-width: 860px){ .grid{grid-template-columns:1fr;} header{position:static;} }
+
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
       border:1px solid var(--border);
@@ -59,20 +64,7 @@
       margin:0 0 10px; font-size:13px; letter-spacing:.2px; color:var(--muted);
       display:flex; align-items:center; justify-content:space-between;
     }
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
-    .kpi{
-      display:flex; flex-direction:column; gap:4px;
-      padding:12px; border-radius:14px; background: rgba(0,0,0,.16);
-      border:1px solid var(--border); flex:1; min-width:160px;
-    }
-    .kpi .label{font-size:12px; color:var(--muted);}
-    .kpi .value{font-family:var(--mono); font-size:18px; font-weight:700;}
-    .bar{
-      height:10px; border-radius:999px;
-      background: rgba(255,255,255,.08);
-      overflow:hidden; border:1px solid var(--border);
-    }
-    .bar > div{height:100%; width:0%; background: linear-gradient(90deg, rgba(122,162,255,.95), rgba(71,209,140,.85));}
+
     textarea{
       width:100%; min-height:140px; resize:vertical;
       background: rgba(0,0,0,.22); color:var(--text);
@@ -80,6 +72,7 @@
       padding:12px 12px; font-size:14px; line-height:1.55;
       outline:none;
     }
+
     .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center; justify-content:space-between;}
     .toggles{display:flex; gap:10px; flex-wrap:wrap;}
     .toggle{
@@ -90,9 +83,10 @@
       user-select:none;
     }
     .toggle input{transform: scale(1.15);}
+
     button{
       border:0; cursor:pointer; border-radius:14px;
-      padding:12px 14px; font-weight:750; letter-spacing:.2px;
+      padding:12px 14px; font-weight:800; letter-spacing:.2px;
       color:#0b0f19;
       background: linear-gradient(135deg, rgba(122,162,255,.95), rgba(71,209,140,.85));
       box-shadow: var(--shadow);
@@ -103,7 +97,8 @@
       border:1px solid var(--border);
       box-shadow:none;
     }
-    .loglist{display:flex; flex-direction:column; gap:10px; max-height:450px; overflow:auto; padding-right:6px;}
+
+    .loglist{display:flex; flex-direction:column; gap:10px; max-height:460px; overflow:auto; padding-right:6px;}
     .entry{
       border:1px solid var(--border);
       background: rgba(0,0,0,.16);
@@ -114,7 +109,7 @@
       display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
       font-family:var(--mono); font-size:12px; color:var(--muted);
     }
-    .entry .gain{color: var(--good); font-weight:800;}
+    .entry .gain{color: var(--good); font-weight:900;}
     .badge{
       display:inline-flex; gap:6px; align-items:center;
       padding:4px 10px; border-radius:999px;
@@ -124,7 +119,7 @@
       font-family:var(--mono); font-size:12px;
     }
 
-    /* Buddy UI */
+    /* Buddy */
     #buddyWrap{
       position: fixed;
       right: 16px;
@@ -142,7 +137,7 @@
       background: rgba(0,0,0,.18);
     }
     #buddyBubble{
-      width: min(420px, calc(100vw - 140px));
+      width: min(460px, calc(100vw - 140px));
       padding: 12px 12px;
       border-radius: 18px;
       border:1px solid rgba(255,255,255,.10);
@@ -176,22 +171,46 @@
       font-family: var(--mono);
       font-size: 12px;
     }
+
+    /* FX: toast */
+    #toast{
+      position:fixed;
+      left:50%;
+      top:16px;
+      transform:translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      padding:10px 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 999;
+    }
+    #toast.show{opacity:1; transform:translateX(-50%) translateY(6px);}
   </style>
 </head>
 
 <body>
+  <div id="toast"></div>
+
   <div class="wrap">
     <header>
       <div class="brand">
         <div class="logo">XP</div>
         <div class="title">
           <strong>EXP Quest</strong>
-          <span>Auto-assess mode</span>
+          <span>Buddy conversation XP</span>
         </div>
       </div>
       <div class="chiprow">
         <div class="chip" id="chipLv">Lv 10</div>
         <div class="chip" id="chipExp">EXP 1200</div>
+        <div class="chip" id="chipStreak">Streak 0</div>
       </div>
     </header>
 
@@ -215,7 +234,7 @@
           </div>
           <div class="row">
             <button class="secondary" id="btnReset">初期化</button>
-            <button id="btnSubmit">会話開始</button>
+            <button id="btnStart">会話開始</button>
           </div>
         </div>
       </section>
@@ -238,19 +257,46 @@
   </div>
 
   <script>
+    // ---------- utils ----------
     const $ = (id) => document.getElementById(id);
     const nowISODate = () => new Date().toISOString().slice(0,10);
 
-    const KEY = "expquest_v1";
+    function toast(msg){
+      const t = $("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(()=>t.classList.remove("show"), 900);
+    }
+
+    // ---------- state ----------
+    const KEY = "expquest_v2_convo";
+
     function loadState(){
       const raw = localStorage.getItem(KEY);
-      if (raw){ try{return JSON.parse(raw);}catch{} }
-      return { totalExp: 1200, history: [] };
+      if (raw){
+        try { return JSON.parse(raw); } catch {}
+      }
+      return {
+        totalExp: 1200,
+        history: [],
+        lastActiveDate: null,
+        streak: 0
+      };
     }
-    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
+
+    function saveState(s){
+      localStorage.setItem(KEY, JSON.stringify(s));
+    }
+
+    // Lv設計：10スタート。必要EXPは緩いステップ（ウサギ向け＝頻繁にLvUP）
     function levelFromExp(total){
-      if (total >= 1500) return 11;
-      return 10;
+      // Lv10: 0-1499, Lv11:1500-1899, Lv12:1900-2399 ...
+      if (total < 1500) return 10;
+      if (total < 1900) return 11;
+      if (total < 2400) return 12;
+      if (total < 3000) return 13;
+      if (total < 3700) return 14;
+      return 15 + Math.floor((total - 3700) / 900);
     }
 
     function render(){
@@ -258,18 +304,28 @@
       $("badgeToday").textContent = nowISODate();
       $("chipExp").textContent = `EXP ${s.totalExp}`;
       $("chipLv").textContent = `Lv ${levelFromExp(s.totalExp)}`;
+      $("chipStreak").textContent = `Streak ${s.streak}`;
 
       const hist = s.history.slice().reverse();
       const el = $("history");
       el.innerHTML = hist.length ? hist.map(h=>`
         <div class="entry">
-          <div class="top"><span>${h.date}</span><span class="gain">+${h.gained} EXP</span></div>
-          <div class="desc" style="white-space:pre-wrap;margin-top:8px;">${h.text}</div>
+          <div class="top">
+            <span>${h.date}</span>
+            <span class="gain">+${h.gained} EXP</span>
+          </div>
+          <div style="white-space:pre-wrap;margin-top:8px;">${escapeHTML(h.text)}</div>
         </div>
       `).join("") : `<div style="color:var(--muted);font-size:12px;">まだ履歴がありません。</div>`;
     }
 
-    // ===== Buddy =====
+    function escapeHTML(str){
+      return (str||"").replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+      }[m]));
+    }
+
+    // ---------- buddy UI ----------
     const buddy = { mood:"idle" };
 
     function setBuddyText(text, chips=[]){
@@ -297,6 +353,7 @@
         switch(buddy.mood){
           case "metal": return {a:"rgba(255,204,102,0.95)", b:"rgba(122,162,255,0.85)"};
           case "hype":  return {a:"rgba(122,162,255,0.95)", b:"rgba(255,107,107,0.78)"};
+          case "focus": return {a:"rgba(71,209,140,0.90)",  b:"rgba(122,162,255,0.70)"};
           default:      return {a:"rgba(122,162,255,0.75)", b:"rgba(71,209,140,0.70)"};
         }
       }
@@ -313,7 +370,7 @@
         ctx.beginPath(); ctx.arc(cx,cy,95,0,Math.PI*2); ctx.fill();
 
         const baseR = 42;
-        const amp = (buddy.mood==="metal") ? 10 : 6;
+        const amp = (buddy.mood==="metal") ? 10 : (buddy.mood==="hype"?8:6);
         const points = 64;
 
         ctx.beginPath();
@@ -344,187 +401,198 @@
       }
       draw();
 
-      setBuddyText("相棒Amoだ。行動を入れて。EXPを渡す。", [
+      setBuddyText("相棒Amoだ。行動を1行入れろ。会話でXPを払う。", [
         {label:"入力にフォーカス", onClick:()=>{$("logInput").focus();}},
-        {label:"SNS断ちON", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("OK。SNSは敵。");}},
+        {label:"例を入れる", onClick:()=>{
+          $("logInput").value = "自炊した。SNSを我慢。";
+          $("logInput").focus();
+        }},
       ]);
     })();
 
-    // ================= Buddy Conversation Layer =================
+    // ---------- conversation engine ----------
+    const convo = {
+      stage: "idle",      // idle | q1 | q2 | q3 | toggles | metalConfirm
+      text: "",
+      tags: { difficulty:1, meaning:1, resist:0, nosns:false, deep:false, risk:false },
+      xp: 0,
+      metal: false
+    };
 
-const buddyConvo = {
-  phase: "idle",
-  draftText: "",
-  tags: {
-    difficulty: 1,
-    meaning: 1,
-    resistance: 0,
-    nosns: false,
-    deep: false,
-    risk: false
-  },
-  pendingXP: 0,
-  pendingMetal: false
-};
+    function startConversation(){
+      const text = $("logInput").value.trim();
+      if (!text){
+        buddy.mood = "idle";
+        toast("ログが空です");
+        setBuddyText("ログが空だ。1行でいい。", [
+          {label:"入力する", onClick:()=>{$("logInput").focus();}}
+        ]);
+        return;
+      }
 
-function buddyStartConvo(text){
-  buddyConvo.draftText = text.trim();
-  buddyConvo.phase = "q1";
-  buddyAskQ1();
-}
+      // UIチェックを初期値へ（任意）
+      convo.tags.nosns = $("tNoSNS").checked;
+      convo.tags.deep  = $("tDeepWork").checked;
+      convo.tags.risk  = $("tRisk").checked;
 
-function buddyAskQ1(){
-  setBuddyText(
-    "難易度は？",
-    [
-      {label:"低", onClick:()=>{buddyConvo.tags.difficulty=1; buddyAskQ2();}},
-      {label:"中", onClick:()=>{buddyConvo.tags.difficulty=2; buddyAskQ2();}},
-      {label:"高", onClick:()=>{buddyConvo.tags.difficulty=3; buddyAskQ2();}}
-    ]
-  );
-}
-
-function buddyAskQ2(){
-  setBuddyText(
-    "意味度は？",
-    [
-      {label:"低", onClick:()=>{buddyConvo.tags.meaning=1; buddyAskQ3();}},
-      {label:"中", onClick:()=>{buddyConvo.tags.meaning=2; buddyAskQ3();}},
-      {label:"高", onClick:()=>{buddyConvo.tags.meaning=3; buddyAskQ3();}}
-    ]
-  );
-}
-
-function buddyAskQ3(){
-  setBuddyText(
-    "抵抗突破した？",
-    [
-      {label:"NO", onClick:()=>{buddyConvo.tags.resistance=0; buddyFinalize();}},
-      {label:"YES", onClick:()=>{buddyConvo.tags.resistance=1; buddyFinalize();}}
-    ]
-  );
-}
-
-function buddyFinalize(){
-  const text = buddyConvo.draftText;
-
-  let xp = 40;
-
-  if(text.includes("自炊")) xp += 20;
-  if(text.includes("読書")) xp += 40;
-
-  xp += (buddyConvo.tags.difficulty-1)*35;
-  xp += (buddyConvo.tags.meaning-1)*45;
-  xp += buddyConvo.tags.resistance ? 80 : 0;
-
-  const metal = Math.random() < 0.18;
-
-  if(metal){
-    xp += 200;
-    setBuddyText(
-      "★メタル出現",
-      [
-        {label:"討伐", onClick:()=>buddyCommitXP(xp)},
-        {label:"逃す", onClick:()=>setBuddyText("了解")}
-      ]
-    );
-  } else {
-    buddyCommitXP(xp);
-  }
-}
-
-function buddyCommitXP(xp){
-
-  const s = loadState();
-
-  s.totalExp += xp;
-  s.history.push({
-    date: nowISODate(),
-    text: buddyConvo.draftText,
-    gained: xp
-  });
-
-  saveState(s);
-  render();
-  
-  buddyAfterAward(xp);
-
-  buddyConvo.phase="idle";
-}
-
-
-    // ===== 旧assess() は不要なので削除する =====
-
-// 送信ボタン：会話開始（入力→質問→確定→付与）
-$("btnSubmit").addEventListener("click", ()=>{
-  const text = $("logInput").value.trim();
-  if (!text) {
-    setBuddyText("ログが空だ。1行でいい、投下して。", [
-      {label:"入力する", onClick:()=>{$("logInput").focus();}}
-    ]);
-    return;
-  }
-
-  // 既存チェックボックスを会話レイヤの初期値に反映（任意）
-  buddyConvo.tags.nosns = $("tNoSNS").checked;
-  buddyConvo.tags.deep  = $("tDeepWork").checked;
-  buddyConvo.tags.risk  = $("tRisk").checked;
-
-  buddy.mood = "hype";
-  buddyStartConvo(text);
-
-  // 入力欄は空にして次の1行が即入れられる状態に
-  $("logInput").value = "";
-  $("tNoSNS").checked = false;
-  $("tDeepWork").checked = false;
-  $("tRisk").checked = false;
-});
-
-// 付与後の“次の一手”をBuddyから出す（任意だけど気持ちよくなる）
-function buddyAfterAward(xp){
-  buddy.mood = (xp >= 250) ? "hype" : "idle";
-  setBuddyText(`+${xp} EXP。次の1行に行け。`, [
-    {label:"次の1行", onClick:()=>{$("logInput").focus();}},
-    {label:"SNS断ちON", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("了解。SNSは敵。");}},
-  ]);
-}
-
-
-    $("btnSubmit").addEventListener("click", ()=>{
-
-  const text = $("logInput").value.trim();
-  if(!text) return;
-
-  buddyConvo.tags.nosns = $("tNoSNS").checked;
-  buddyConvo.tags.deep = $("tDeepWork").checked;
-  buddyConvo.tags.risk = $("tRisk").checked;
-
-  buddyStartConvo(text);
-
-  $("logInput").value="";
-});
-
-      buddy.mood = metal ? "metal" : (gained>=250 ? "hype" : "idle");
-      setBuddyText(
-        metal ? `★メタル！ +${gained}EXP` : `+${gained}EXP`,
-        [
-          {label:"次の1行", onClick:()=>{$("logInput").focus();}},
-          {label:"SNS断ち", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("SNS断ちON。");}},
-        ]
-      );
+      convo.text = text;
+      convo.stage = "q1";
+      buddy.mood = "focus";
       $("logInput").value = "";
       $("tNoSNS").checked = false;
       $("tDeepWork").checked = false;
       $("tRisk").checked = false;
-    });
+
+      askQ1();
+    }
+
+    function askQ1(){
+      setBuddyText("質問1/3：難易度は？（直感でOK）", [
+        {label:"低", onClick:()=>{convo.tags.difficulty=1; convo.stage="q2"; askQ2();}},
+        {label:"中", onClick:()=>{convo.tags.difficulty=2; convo.stage="q2"; askQ2();}},
+        {label:"高", onClick:()=>{convo.tags.difficulty=3; convo.stage="q2"; askQ2();}},
+      ]);
+    }
+
+    function askQ2(){
+      setBuddyText("質問2/3：意味（自己の成長・価値）は？", [
+        {label:"低", onClick:()=>{convo.tags.meaning=1; convo.stage="q3"; askQ3();}},
+        {label:"中", onClick:()=>{convo.tags.meaning=2; convo.stage="q3"; askQ3();}},
+        {label:"高", onClick:()=>{convo.tags.meaning=3; convo.stage="q3"; askQ3();}},
+      ]);
+    }
+
+    function askQ3(){
+      setBuddyText("質問3/3：抵抗（面倒/誘惑/怖さ）を突破した？", [
+        {label:"NO", onClick:()=>{convo.tags.resist=0; convo.stage="toggles"; askToggles();}},
+        {label:"YES", onClick:()=>{convo.tags.resist=1; convo.stage="toggles"; askToggles();}},
+      ]);
+    }
+
+    function askToggles(){
+      setBuddyText("最後：該当するものを選べ（複数OK）→ 確定", [
+        {label:`SNS断ち ${convo.tags.nosns?"ON":"OFF"}`, onClick:()=>{convo.tags.nosns=!convo.tags.nosns; askToggles();}},
+        {label:`深集中 ${convo.tags.deep?"ON":"OFF"}`, onClick:()=>{convo.tags.deep=!convo.tags.deep; askToggles();}},
+        {label:`リスク ${convo.tags.risk?"ON":"OFF"}`, onClick:()=>{convo.tags.risk=!convo.tags.risk; askToggles();}},
+        {label:"確定", onClick:()=>finalizeXP()},
+      ]);
+    }
+
+    function finalizeXP(){
+      const {xp, metal} = computeXP(convo.text, convo.tags);
+      convo.xp = xp;
+      convo.metal = metal;
+
+      if (metal){
+        convo.stage = "metalConfirm";
+        buddy.mood = "metal";
+        toast("★メタル出現");
+        setBuddyText(`★メタル反応：+${xp} EXP（討伐で確定）`, [
+          {label:"討伐して確定", onClick:()=>commitXP()},
+          {label:"逃がす（0）", onClick:()=>{buddy.mood="idle"; setBuddyText("了解。今日は温存。", [{label:"次の1行", onClick:()=>{$("logInput").focus();}}]); resetConvo();}},
+        ]);
+      } else {
+        commitXP();
+      }
+    }
+
+    function computeXP(text, tags){
+      let xp = 40;
+
+      // 軽い自動判定（キーワード）
+      if (text.includes("自炊")) xp += 20;
+      if (text.includes("読書")) xp += 40;
+      if (text.includes("SNS") && (text.includes("減") || text.includes("断") || text.includes("極小") || text.includes("我慢"))) xp += 60;
+      if (text.includes("引き継ぎ") || text.includes("優しく") || text.includes("丁寧") || text.includes("配慮")) xp += 30;
+
+      // 主観タグ
+      xp += (tags.difficulty - 1) * 35; // 0/35/70
+      xp += (tags.meaning - 1) * 45;    // 0/45/90
+      xp += tags.resist ? 80 : 0;
+
+      // ブースト
+      xp += tags.nosns ? 120 : 0;
+      xp += tags.deep  ? 70  : 0;
+      xp += tags.risk  ? 90  : 0;
+
+      // メタル（やや出る）
+      const p = 0.16 + (tags.deep?0.06:0) + (tags.nosns?0.05:0) + (tags.resist?0.04:0);
+      const metal = Math.random() < p;
+      if (metal) xp += 200;
+
+      return {xp, metal};
+    }
+
+    function commitXP(){
+      const s = loadState();
+      const beforeLv = levelFromExp(s.totalExp);
+      const beforeExp = s.totalExp;
+
+      // streak更新（その日に1回でもXP付与で更新）
+      const today = nowISODate();
+      if (!s.lastActiveDate){
+        s.streak = 1;
+      } else if (s.lastActiveDate === today){
+        // 今日は既にアクティブ → streak維持
+      } else {
+        const last = new Date(s.lastActiveDate);
+        const t = new Date(today);
+        const diffDays = Math.round((t - last) / (1000*60*60*24));
+        if (diffDays === 1) s.streak += 1;
+        else s.streak = 1;
+      }
+      s.lastActiveDate = today;
+
+      s.totalExp += convo.xp;
+      s.history.push({date: today, text: convo.text, gained: convo.xp});
+      saveState(s);
+      render();
+
+      const afterLv = levelFromExp(s.totalExp);
+      const leveled = afterLv !== beforeLv;
+
+      if (leveled){
+        buddy.mood = "hype";
+        toast(`Lv UP! ${beforeLv} → ${afterLv}`);
+        setBuddyText(`Lv UP（${beforeLv}→${afterLv}）。+${convo.xp} EXP。次の1行。`, [
+          {label:"次の1行", onClick:()=>{$("logInput").focus();}},
+          {label:"ボスを探す", onClick:()=>{setBuddyText("今日のボス条件：『怖いこと』を1つやれ。", [{label:"了解", onClick:()=>{$("logInput").focus();}}]);}},
+        ]);
+      } else {
+        buddy.mood = (convo.xp >= 250) ? "hype" : "idle";
+        toast(`+${convo.xp} EXP`);
+        setBuddyText(`+${convo.xp} EXP。次の1行に行け。`, [
+          {label:"次の1行", onClick:()=>{$("logInput").focus();}},
+          {label:"SNS断ち宣言", onClick:()=>{setBuddyText("宣言を受理。SNSは敵。", [{label:"続ける", onClick:()=>{$("logInput").focus();}}]);}},
+        ]);
+      }
+
+      resetConvo();
+    }
+
+    function resetConvo(){
+      convo.stage = "idle";
+      convo.text = "";
+      convo.tags = { difficulty:1, meaning:1, resist:0, nosns:false, deep:false, risk:false };
+      convo.xp = 0;
+      convo.metal = false;
+    }
+
+    // ---------- controls ----------
+    $("btnStart").addEventListener("click", startConversation);
 
     $("btnReset").addEventListener("click", ()=>{
       if (!confirm("全データを初期化します。よろしいですか？")) return;
       localStorage.removeItem(KEY);
       render();
-      setBuddyText("初期化した。最初のログを入れて。", [{label:"入力", onClick:()=>{$("logInput").focus();}}]);
+      buddy.mood = "idle";
+      setBuddyText("初期化した。最初の1行を入れろ。", [
+        {label:"入力する", onClick:()=>{$("logInput").focus();}},
+      ]);
+      toast("初期化");
     });
 
+    // 初回描画
     render();
   </script>
 </body>
