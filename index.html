@@ -446,26 +446,49 @@ function buddyCommitXP(xp){
 
   saveState(s);
   render();
-
-  setBuddyText("+"+xp+" EXP");
+  
+  buddyAfterAward(xp);
 
   buddyConvo.phase="idle";
 }
 
-    function assess(text){
-      let gained = 40;
-      if (text.includes("自炊")) gained += 20;
-      if (text.includes("読書")) gained += 40;
-      if ($("tNoSNS").checked) gained += 120;
-      if ($("tDeepWork").checked) gained += 70;
-      if ($("tRisk").checked) gained += 90;
 
-      // mild metal
-      const p = 0.18 + ($("tDeepWork").checked?0.06:0) + ($("tNoSNS").checked?0.05:0);
-      let metal = false;
-      if (Math.random() < p){ gained += 200; metal = true; }
-      return {gained, metal};
-    }
+    // ===== 旧assess() は不要なので削除する =====
+
+// 送信ボタン：会話開始（入力→質問→確定→付与）
+$("btnSubmit").addEventListener("click", ()=>{
+  const text = $("logInput").value.trim();
+  if (!text) {
+    setBuddyText("ログが空だ。1行でいい、投下して。", [
+      {label:"入力する", onClick:()=>{$("logInput").focus();}}
+    ]);
+    return;
+  }
+
+  // 既存チェックボックスを会話レイヤの初期値に反映（任意）
+  buddyConvo.tags.nosns = $("tNoSNS").checked;
+  buddyConvo.tags.deep  = $("tDeepWork").checked;
+  buddyConvo.tags.risk  = $("tRisk").checked;
+
+  buddy.mood = "hype";
+  buddyStartConvo(text);
+
+  // 入力欄は空にして次の1行が即入れられる状態に
+  $("logInput").value = "";
+  $("tNoSNS").checked = false;
+  $("tDeepWork").checked = false;
+  $("tRisk").checked = false;
+});
+
+// 付与後の“次の一手”をBuddyから出す（任意だけど気持ちよくなる）
+function buddyAfterAward(xp){
+  buddy.mood = (xp >= 250) ? "hype" : "idle";
+  setBuddyText(`+${xp} EXP。次の1行に行け。`, [
+    {label:"次の1行", onClick:()=>{$("logInput").focus();}},
+    {label:"SNS断ちON", onClick:()=>{$("tNoSNS").checked=true; setBuddyText("了解。SNSは敵。");}},
+  ]);
+}
+
 
     $("btnSubmit").addEventListener("click", ()=>{
 
