@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Hiragino Sans'}
+    span.s1 {font: 12.0px Helvetica}
+    span.s2 {font: 12.0px 'Hiragino Sans'}
+  </style>
+</head>
+<body>
+<p class="p1">// =================== Buddy (Amoeba) ===================</p>
+<p class="p1">const buddy = {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>mood: "idle", // idle, happy, hype, metal, level, focus</p>
+<p class="p1"><span class="Apple-converted-space">  </span>lastTextAt: 0,</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">function setBuddyText(text, chips=[]){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>$("buddyText").textContent = text;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const wrap = $("buddyChips");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>wrap.innerHTML = "";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for (const c of chips){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const d = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>d.className = "bchip";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>d.textContent = c.label;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>d.addEventListener("click", ()=&gt;c.onClick());</p>
+<p class="p1"><span class="Apple-converted-space">    </span>wrap.appendChild(d);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function buddyPromptAfterSubmit({metal, leveled, gained}){</p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">  </span>// “</span>対話<span class="s1">”</span>で次の行動を促す（ウサギ向け）</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (metal){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>buddy.mood = "metal";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setBuddyText(</p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">      </span>`</span>★メタル反応<span class="s1">\n</span>いまの脳の状態は良い。<span class="s1">\n</span>次は「<span class="s1">SNS</span>断ち」か「深集中」で連鎖を狙える。<span class="s1">`,</span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{label:"SNS<span class="s2">断ち</span>ON<span class="s2">にする</span>", onClick:()=&gt;{ $("tNoSNS").checked = true; setBuddyText("<span class="s2">よし。誘惑が強い日は</span>EXP<span class="s2">が跳ねる。</span>"); }},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">深集中</span>ON<span class="s2">にする</span>", onClick:()=&gt;{ $("tDeepWork").checked = true; setBuddyText("<span class="s2">了解。深集中はメタル確率も上がる。</span>"); }},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]</p>
+<p class="p1"><span class="Apple-converted-space">    </span>);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (leveled){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>buddy.mood = "level";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setBuddyText(</p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">      </span>`LvUP</span>。あなたの回路が更新された。<span class="s1">\n</span>次は<span class="s1">“</span>短い入力<span class="s1">”</span>を積んで<span class="s1">Streak</span>を維持。<span class="s1">`,</span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>[</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">クイック入力する</span>", onClick:()=&gt;{ $("logInput").focus(); }},</p>
+<p class="p1"><span class="Apple-converted-space">        </span>{label:"<span class="s2">今日の方針：</span>SNS<span class="s2">極小</span>", onClick:()=&gt;{ $("tNoSNS").checked = true; setBuddyText("<span class="s2">採用。今日は</span>SNS<span class="s2">を</span>“<span class="s2">敵</span>”<span class="s2">に指定した。</span>"); }},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>]</p>
+<p class="p1"><span class="Apple-converted-space">    </span>);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>buddy.mood = gained &gt;= 250 ? "hype" : "happy";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setBuddyText(</p>
+<p class="p3"><span class="s1"><span class="Apple-converted-space">    </span>`+${gained}EXP</span>。悪くない。<span class="s1">\n</span>「次の一手」を<span class="s1">1</span>行で入力して、連鎖を作る？<span class="s1">`,</span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>[</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{label:"1<span class="s2">行だけ書く</span>", onClick:()=&gt;{ $("logInput").focus(); }},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{label:"<span class="s2">今日は休止も</span>OK", onClick:()=&gt;{ setBuddyText("<span class="s2">了解。休止は統合（</span>Step<span class="s2">）を生む日がある。</span>"); }},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>]</p>
+<p class="p1"><span class="Apple-converted-space">  </span>);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// Amoeba animation</p>
+<p class="p1">(function initBuddy(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const canvas = $("buddy");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ctx = canvas.getContext("2d");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const W = canvas.width, H = canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const cx = W/2, cy = H/2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let t = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function moodColor(){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// no hardcoded colors rule applies to python charts only; here is UI CSS/Canvas ok.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>switch(buddy.mood){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>case "metal": return {a:"rgba(255,204,102,0.95)", b:"rgba(122,162,255,0.85)"};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>case "level": return {a:"rgba(71,209,140,0.95)", b:"rgba(122,162,255,0.85)"};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>case "hype":<span class="Apple-converted-space">  </span>return {a:"rgba(122,162,255,0.95)", b:"rgba(255,107,107,0.78)"};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>case "focus": return {a:"rgba(122,162,255,0.95)", b:"rgba(71,209,140,0.85)"};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>case "happy": return {a:"rgba(71,209,140,0.92)", b:"rgba(122,162,255,0.78)"};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>default:<span class="Apple-converted-space">      </span>return {a:"rgba(122,162,255,0.75)", b:"rgba(71,209,140,0.70)"};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function draw(){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>t += 0.016;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.clearRect(0,0,W,H);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// background soft glow</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const c = moodColor();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const g = ctx.createRadialGradient(cx, cy, 10, cx, cy, 95);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>g.addColorStop(0, c.a);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>g.addColorStop(1, "rgba(0,0,0,0)");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = g;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath(); ctx.arc(cx,cy,95,0,Math.PI*2); ctx.fill();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// amoeba blob: radial noise</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const baseR = 42;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const amp = (buddy.mood==="metal"||buddy.mood==="level") ? 10 : (buddy.mood==="hype" ? 8 : 6);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const wob = (buddy.mood==="focus") ? 0.6 : 1.0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const points = 64;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>for (let i=0;i&lt;=points;i++){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const a = (i/points)*Math.PI*2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const n = Math.sin(a*3 + t*2*wob) * 0.55</p>
+<p class="p1"><span class="Apple-converted-space">              </span>+ Math.sin(a*7 - t*1.6*wob) * 0.30</p>
+<p class="p1"><span class="Apple-converted-space">              </span>+ Math.sin(a*11 + t*1.1*wob) * 0.15;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const r = baseR + amp*n;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const x = cx + Math.cos(a)*r;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const y = cy + Math.sin(a)*r;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (i===0) ctx.moveTo(x,y);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>else ctx.lineTo(x,y);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.closePath();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// fill gradient</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const lg = ctx.createLinearGradient(cx-50,cy-50,cx+60,cy+60);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lg.addColorStop(0, c.a);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lg.addColorStop(1, c.b);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = lg;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.fill();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// eyes (cute)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const blink = (Math.sin(t*2.8) &gt; 0.985) ? 1 : 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const eyeY = cy - 6;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const eyeDx = 14;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.fillStyle = "rgba(11,15,25,0.75)";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!blink){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.beginPath(); ctx.arc(cx-eyeDx, eyeY, 4.8, 0, Math.PI*2); ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.beginPath(); ctx.arc(cx+eyeDx, eyeY, 4.8, 0, Math.PI*2); ctx.fill();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.fillRect(cx-eyeDx-5, eyeY, 10, 2);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.fillRect(cx+eyeDx-5, eyeY, 10, 2);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// mouth</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.strokeStyle = "rgba(11,15,25,0.65)";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.lineWidth = 2;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const m = buddy.mood==="metal" ? 10 : (buddy.mood==="hype" ? 7 : 5);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.arc(cx, cy+6, m, 0.15*Math.PI, 0.85*Math.PI);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ctx.stroke();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>requestAnimationFrame(draw);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>draw();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// initial buddy text</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setBuddyText("<span class="s2">相棒</span>Amo<span class="s2">だ。</span>\n<span class="s2">行動を入れると、私は</span>“<span class="s2">報酬演出</span>”<span class="s2">で回路を回す。</span>", [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:"<span class="s2">今日のログを書く</span>", onClick:()=&gt;{$("logInput").focus();}},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>{label:"SNS<span class="s2">断ちを誓う</span>", onClick:()=&gt;{$("tNoSNS").checked=true; setBuddyText("<span class="s2">誓約を確認。誘惑が強いほど</span>EXP<span class="s2">が美味い。</span>");}},</p>
+<p class="p1"><span class="Apple-converted-space">  </span>]);</p>
+<p class="p1">})();</p>
+</body>
+</html>
