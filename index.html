@@ -215,7 +215,7 @@
           </div>
           <div class="row">
             <button class="secondary" id="btnReset">初期化</button>
-            <button id="btnSubmit">査定してEXP付与</button>
+            <button id="btnSubmit">会話開始</button>
           </div>
         </div>
       </section>
@@ -350,6 +350,108 @@
       ]);
     })();
 
+    // ================= Buddy Conversation Layer =================
+
+const buddyConvo = {
+  phase: "idle",
+  draftText: "",
+  tags: {
+    difficulty: 1,
+    meaning: 1,
+    resistance: 0,
+    nosns: false,
+    deep: false,
+    risk: false
+  },
+  pendingXP: 0,
+  pendingMetal: false
+};
+
+function buddyStartConvo(text){
+  buddyConvo.draftText = text.trim();
+  buddyConvo.phase = "q1";
+  buddyAskQ1();
+}
+
+function buddyAskQ1(){
+  setBuddyText(
+    "難易度は？",
+    [
+      {label:"低", onClick:()=>{buddyConvo.tags.difficulty=1; buddyAskQ2();}},
+      {label:"中", onClick:()=>{buddyConvo.tags.difficulty=2; buddyAskQ2();}},
+      {label:"高", onClick:()=>{buddyConvo.tags.difficulty=3; buddyAskQ2();}}
+    ]
+  );
+}
+
+function buddyAskQ2(){
+  setBuddyText(
+    "意味度は？",
+    [
+      {label:"低", onClick:()=>{buddyConvo.tags.meaning=1; buddyAskQ3();}},
+      {label:"中", onClick:()=>{buddyConvo.tags.meaning=2; buddyAskQ3();}},
+      {label:"高", onClick:()=>{buddyConvo.tags.meaning=3; buddyAskQ3();}}
+    ]
+  );
+}
+
+function buddyAskQ3(){
+  setBuddyText(
+    "抵抗突破した？",
+    [
+      {label:"NO", onClick:()=>{buddyConvo.tags.resistance=0; buddyFinalize();}},
+      {label:"YES", onClick:()=>{buddyConvo.tags.resistance=1; buddyFinalize();}}
+    ]
+  );
+}
+
+function buddyFinalize(){
+  const text = buddyConvo.draftText;
+
+  let xp = 40;
+
+  if(text.includes("自炊")) xp += 20;
+  if(text.includes("読書")) xp += 40;
+
+  xp += (buddyConvo.tags.difficulty-1)*35;
+  xp += (buddyConvo.tags.meaning-1)*45;
+  xp += buddyConvo.tags.resistance ? 80 : 0;
+
+  const metal = Math.random() < 0.18;
+
+  if(metal){
+    xp += 200;
+    setBuddyText(
+      "★メタル出現",
+      [
+        {label:"討伐", onClick:()=>buddyCommitXP(xp)},
+        {label:"逃す", onClick:()=>setBuddyText("了解")}
+      ]
+    );
+  } else {
+    buddyCommitXP(xp);
+  }
+}
+
+function buddyCommitXP(xp){
+
+  const s = loadState();
+
+  s.totalExp += xp;
+  s.history.push({
+    date: nowISODate(),
+    text: buddyConvo.draftText,
+    gained: xp
+  });
+
+  saveState(s);
+  render();
+
+  setBuddyText("+"+xp+" EXP");
+
+  buddyConvo.phase="idle";
+}
+
     function assess(text){
       let gained = 40;
       if (text.includes("自炊")) gained += 20;
@@ -366,14 +468,18 @@
     }
 
     $("btnSubmit").addEventListener("click", ()=>{
-      const text = $("logInput").value.trim();
-      const s = loadState();
-      const before = s.totalExp;
-      const {gained, metal} = assess(text);
-      s.totalExp += gained;
-      s.history.push({date: nowISODate(), text, gained});
-      saveState(s);
-      render();
+
+  const text = $("logInput").value.trim();
+  if(!text) return;
+
+  buddyConvo.tags.nosns = $("tNoSNS").checked;
+  buddyConvo.tags.deep = $("tDeepWork").checked;
+  buddyConvo.tags.risk = $("tRisk").checked;
+
+  buddyStartConvo(text);
+
+  $("logInput").value="";
+});
 
       buddy.mood = metal ? "metal" : (gained>=250 ? "hype" : "idle");
       setBuddyText(
